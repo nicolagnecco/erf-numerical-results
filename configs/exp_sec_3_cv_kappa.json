@@ -1,0 +1,40 @@
+{
+  "set_params": {
+      "description": "Experiments for Section 3 --- Cross validation wrt min.node.size; lambda = 0.",
+      "nsim": 50,
+      "params": {
+        "n": [2e3],
+        "p": [40], 
+        "ntest": 1e3,
+        "model": ["step"],
+        "distr": ["student_t"],
+        "df": [4],
+        "test_data": "halton",
+        "alpha_beta": [1],
+        "methods": {"": ["truth"]},
+        "min.node.size": {"":[40, 5, 10, 100, 200, 300, 350, 400, 450, 500]},
+        "lambda": {"":[0.0]},
+        "nfolds": 5,
+        "nreps": 3,
+        "quantiles": {"":[0.8, 0.99, 0.995, 0.999, 0.9995]},
+        "intermediate_quantile" : [0.8],
+        "return_value": "cv"
+      },
+      "base_params": null, // one of null, or in the same order as they appear above
+      "grid_mode": "full", // one of "full", "partial"
+      "seed": 13240579,
+      "seed_for_each": null, // one of null, [<params$param_name_1>, ..., <params$param_name_n>, <nsim>]
+      "output_file": "output/exp_sec_3_kappa/param_grid_models_cv_kappa.rds"
+  },
+  
+  "set_parallel_strategy":{
+    "strategy": "parallel", // one of "parallel", "sequential"
+    "n_workers": 8
+  },
+  
+  "run_experiments": { 
+    "experiment": "compare_methods_cv", // experiment function
+    "input_file": "output/exp_sec_3_kappa/param_grid_models_cv_kappa.rds",
+    "output_file": "output/exp_sec_3_kappa/res_models_cv_kappa.rds"
+  }
+}

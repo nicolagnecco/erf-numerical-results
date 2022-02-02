@@ -1,0 +1,17 @@
+.DS_store
+.Rproj.user
+.Rhistory
+output/progress.txt
+output/*.txt
+*.pdf
+nohup.out
+output/*/param_grid*.rds
+tests/*.rds
+*.RData
+*.RDataTmp
+figures/*.pdf
+!output/*/*.Rdata
+!output/*/*/*.pdf
+!Data/census00.RData
+!Data/census80.RData
+!Data/census90.RData
