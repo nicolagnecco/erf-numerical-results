@@ -9,8 +9,8 @@ quantiles_2 <- c(.8, .9995)
 model <- "step"
 distr <- "gaussian"
 df <- 4
-seed <- 158520283
-figure_dest_folder <- "figures/slides/"
+seed <- 158520284
+figure_dest_folder <- "figures/"
 x_text <- 1.3
 text_size <- 3.5
 x_test <- -0.25
@@ -258,9 +258,9 @@ save_myplot(
 
 
 # ERF ####
-erf.fit <- erf::erf(X, Y, min.node.size = 40, lambda = .01)
+erf.fit <- erf::erf(X, Y, min.node.size = 100, lambda = .001)
 qq <- predict(erf.fit, quantiles = quantiles_2)
-qq_grf <- predict(erf.fit$intermediate_threshold, quantiles = quantiles_2)[[1]]
+qq_grf <- predict(erf.fit$quantile_forest, quantiles = quantiles_2)[[1]]
 fitted_quantiles <- tibble(
   X1 = dat$X1,
   Y = dat$Y,
