@@ -54,9 +54,9 @@ set_params <- function(description, nsim, params, base_params = character(),
   params <- params %>% 
     mutate(across(where(is_integer), as.numeric))
   
-  # keep df only for student_t
+  # remove df for Gaussian
   params <- params %>% 
-    mutate(df = if_else(distr == "student_t", df, NaN)) %>% 
+    mutate(df = if_else(distr == "gaussian", NaN, df)) %>% 
     distinct()
     
   # rep tibble 
