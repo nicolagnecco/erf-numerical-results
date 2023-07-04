@@ -22,11 +22,11 @@ build_X_test <- function(test_points, p){
   }
 }
 
-get_similarity_weights <- function(X, Y, X_test, min.node.size){
-  ## numeric_matrix numeric_vector numeric_matrix numeric -> numeric_matrix
+get_similarity_weights <- function(X, Y, X_test, min.node.size, ...){
+  ## numeric_matrix numeric_vector numeric_matrix numeric  ... -> numeric_matrix
   ## produce matrix n = nrow(X_test), p = ncol(X_test) with similarity weights
   
-  fit.grf <- grf::quantile_forest(X, Y, min.node.size = min.node.size)
+  fit.grf <- grf::quantile_forest(X, Y, min.node.size = min.node.size, ...)
   get_forest_weights(fit.grf, newdata = X_test) %>% 
     as.matrix()
 }
@@ -48,11 +48,11 @@ weights2tibble <- function(w, X, test_points, min.node.size){
   }
   
   return(tbl)
-
+  
 }
 
 # Constant definitions ####
-n <- 2e3
+n <- 1000
 ntest <- 2
 p <- 40
 quantiles <- c(.8,.95, .9995)
@@ -62,6 +62,7 @@ df <- 4
 seed <- 158520283
 min.node.size <- 40
 test_points <- c(-0.2, 0.5)
+test_points <- c(0.5)
 
 figure_path <- here("figures", "similarity_weights.pdf")
 
@@ -76,18 +77,28 @@ Y <- train_dat$Y
 
 X_test <- build_X_test(test_points, p)
 
+# fit.grf <- grf::quantile_forest(X, Y, min.node.size = 40, 
+#                                 regression.splitting = FALSE, num.trees = 1)
+# 
+# get_tree(fit.grf, 1)
+# 
+# plot(X[, 1], Y)
+
+
 # Compute similarity weights
 dat <- get_similarity_weights(X, Y, X_test,
-                              min.node.size = min.node.size) %>% 
+                              min.node.size = min.node.size,
+                              regression.splitting  = FALSE) %>% 
   weights2tibble(X, test_points, 
                  min.node.size = min.node.size)
 
 gg <- ggplot(data = dat) +
   facet_wrap(~ x) +
   geom_point(aes(x = X1, y = w), alpha = .2) +
-  geom_vline(aes(xintercept = x), linetype = 2, color = my_palette2$red) +
+  geom_vline(aes(xintercept = x), linewidth = 1, linetype = 2,
+             color = my_palette2$red) +
   xlab(TeX("$X_1$")) +
-  ylab(TeX("$w_n(x, X_i)$")) +
+  ylab(TeX("$w_n(x, X_1)$")) +
   theme(
     strip.background = element_blank(),
     strip.text.x = element_blank()
