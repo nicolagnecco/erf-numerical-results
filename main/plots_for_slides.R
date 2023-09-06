@@ -328,8 +328,8 @@ erf.fit <- erf::erf(X, Y, min.node.size = 40, lambda = .01)
 qq <- predict(erf.fit, quantiles = quantiles_2)
 qq_grf <- predict(erf.fit$quantile_forest, quantiles = quantiles_2)[[1]]
 fitted_quantiles <- tibble(
-    X1 = dat$X1,
-    Y = dat$Y,
+    X1 = X[, 1],
+    Y = Y,
     Q_interm = qq[, 1],
     Q_hi = qq[, 2],
     Q_higrf = qq_grf[, 2]
@@ -532,7 +532,7 @@ save_myplot(
 
 
 
-# Simulation study 1
+# Simulation study 1 ####
 set.seed(1234)
 train_dat <- generate_joint_distribution(n, p,
     model = model, df = df,
