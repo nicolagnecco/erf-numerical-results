@@ -57,7 +57,7 @@ p <- 10
 model <- "step"
 distr <- "gaussian"
 df <- 10
-seed <- 1519520123
+seed <- 151919923
 figure_dest_folder <- "figures/slides/"
 x_text <- 1.3
 text_size <- 3.5
@@ -68,6 +68,8 @@ max_weight <- 0.0075
 tau_n <- 0.8
 tau_hi <- .9995
 
+
+set.seed(seed)
 
 # generate data
 train_dat <- generate_joint_distribution(n, p,
@@ -84,10 +86,19 @@ X_test[1, ] <- test_points
 erf.fit <- erf::erf(X, Y, min.node.size = min.node.size, lambda = .01)
 fit.grf <- erf.fit$intermediate_threshold
 
+# predict conditional median = mean
+mean_oracle <- generate_theoretical_quantiles(
+  quantiles = 0.5, X = X, model = model, distr = distr, df = df
+)
+mean_oracle_text <- glue::glue("$E\\[Y | X = x\\]$", .open = "{{")
 
 # predict intermediate quantile (using grf)
 Q_hat <- predict(fit.grf, quantiles = tau_n)$predictions[, 1]
 Q_hat_text <- glue::glue("$\\hat{Q}_x({{round(tau_n, 2)})$", .open = "{{")
+Q_hat_oracle <- generate_theoretical_quantiles(
+  quantiles = tau_n, X = X, model = model, distr = distr, df = df
+)
+Q_hat_oracle_text <- glue::glue("$Q_x({{round(tau_n, 2)})$", .open = "{{")
 
 # predict high quantile (using grf)
 Q_hat_hi_grf <- predict(fit.grf, quantiles = tau_hi)$predictions[, 1]
@@ -101,6 +112,8 @@ qq_test <- predict(erf.fit, newdata = X_test, quantiles = tau_hi)
 Q_hat_hi_oracle <- generate_theoretical_quantiles(
   quantiles = tau_hi, X = X, model = model, distr = distr, df = df
 )
+Q_hat_hi_oracle_text <- glue::glue("$Q_x({{round(tau_hi, 4)})$", .open = "{{")
+
 
 # extract forest weights
 dat_weights <- get_similarity_weights(erf.fit$quantile_forest, X_test) %>% 
@@ -112,19 +125,23 @@ dat_weights <- get_similarity_weights(erf.fit$quantile_forest, X_test) %>%
 dat <- dat_weights %>% 
   mutate(Y = Y,
          Q_hat = Q_hat, 
+         mean_oracle = mean_oracle,
          Q_hat_hi_grf = Q_hat_hi_grf,
          Q_hat_hi_erf = Q_hat_hi_erf,
+         Q_hat_oracle = Q_hat_oracle,
          Q_hat_hi_oracle = Q_hat_hi_oracle,
          Exc_ind = Y > Q_hat,
          W_ind = w > min_weights
   )
+
+ylim_erf <- c(-5, max(dat$Q_hat_hi_erf, dat$Q_hat_hi_grf, dat$hiQ_hat_hi_oracle) - 0.5)
 
 
 # base plot
 gg_base <- ggplot() +
   coord_cartesian(
     xlim = c(-.95, .95), 
-    ylim = c(-5, 12), 
+    ylim = ylim_erf, 
     clip = "off") +
   theme(
     plot.margin = unit(c(1, 4.5, 1, 1), "lines"),
@@ -154,7 +171,73 @@ save_myplot(
 )
 
 
-# Add intermediate quantile
+# Data with conditional mean
+
+gg_mean <- gg_00 +
+  geom_line(
+    data = dat %>% filter(Y > -5),
+    aes(x = X1, y = mean_oracle), linetype = "dashed") +
+  annotate("text",
+           x = x_text, y = max(mean_oracle),
+           label = TeX(mean_oracle_text), 
+           size = text_size
+  )
+
+gg_mean
+
+save_myplot(
+  plt = gg_mean,
+  plt_nm = paste0(figure_dest_folder, glue::glue("plot_weighted_erf_mean"),".pdf"),
+  width  = 3,
+  height = 3
+)
+
+# Data with conditional mean and intermediate quantile
+
+
+gg_mean_inter <- gg_mean +
+  geom_line(
+    data = dat %>% filter(Y > -5),
+    aes(x = X1, y = Q_hat_oracle), linetype = "dashed") +
+  annotate("text",
+           x = x_text, y = max(Q_hat_oracle),
+           label = TeX(Q_hat_oracle_text), 
+           size = text_size
+  )
+
+gg_mean_inter
+
+save_myplot(
+  plt = gg_mean_inter,
+  plt_nm = paste0(figure_dest_folder, glue::glue("plot_weighted_erf_mean_inter"),".pdf"),
+  width  = 3,
+  height = 3
+)
+
+# Data with conditional mean, intermediate and high quantile
+
+gg_mean_inter_hi <- gg_mean_inter +
+  geom_line(
+    data = dat %>% filter(Y > -5),
+    aes(x = X1, y = Q_hat_hi_oracle), linetype = "dashed") +
+  annotate("text",
+           x = x_text, y = max(Q_hat_hi_oracle),
+           label = TeX(Q_hat_hi_oracle_text), 
+           size = text_size
+  )
+
+gg_mean_inter_hi
+
+save_myplot(
+  plt = gg_mean_inter_hi,
+  plt_nm = paste0(figure_dest_folder, glue::glue("plot_weighted_erf_mean_inter_hi"),".pdf"),
+  width  = 3,
+  height = 3
+)
+
+
+
+# Add estimated intermediate quantile to data
 gg_01 <- gg_00 +
   geom_line(
     data = dat %>% filter(Y > -5),
@@ -179,7 +262,7 @@ save_myplot(
 # Add test point
 gg_02 <- gg_01 + 
   geom_vline(aes(xintercept = test_points[1]), linewidth = 1, linetype = 2,
-             color = my_palette2$red)
+             color = my_palette2$grey)
 
 
 save_myplot(
@@ -204,7 +287,7 @@ gg_03 <-
   geom_line(data = dat %>% filter(Y > -5),
             aes(x = X1, y = Q_hat)) +
   geom_vline(aes(xintercept = test_points[1]), linewidth = 1, linetype = 2,
-             color = my_palette2$red) +
+             color = my_palette2$grey) +
   annotate("text",
            x = x_text, y = max(Q_hat),
            label = TeX(Q_hat_text),
@@ -227,7 +310,7 @@ save_myplot(
 
 gg_04 <- gg_03 +
   geom_vline(aes(xintercept = test_points[1]), linewidth = 1, linetype = 2,
-             color = my_palette2$red) +
+             color = my_palette2$grey) +
   geom_point(data = dat, aes(x = x, y = qq_test), shape = 19, size = 2)
 
 save_myplot(
@@ -344,3 +427,7 @@ save_myplot(
   width  = 3,
   height = 3
 )
+
+
+
+
