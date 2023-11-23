@@ -75,7 +75,7 @@ Below we provide a detailed breakdown of each file.
 The estimated runtime is around 15 mins.
 
 > [!WARNING]  
-> The estimated runtime is based on the number of parallel `R` instances set in the corresponding config file (see the parameter `n_workers` there). Running several `R` instances in parallel (e.g., > 20) on a local computer might not be feasible.
+> The estimated runtime is based on the number of parallel `R` instances set in the corresponding config file (see the parameter `n_workers` there). Running several `R` instances in parallel (e.g., `n_workers > 20`) on a local computer might not be feasible.
 
 
 ### Main Folder Breakdown
