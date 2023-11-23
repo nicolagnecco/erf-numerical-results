@@ -50,7 +50,7 @@ R --version
 If you don't have R installed please [download R](https://cran.rstudio.com/) and install it.
 
 2. **Install the requirements:**
-Move to the `main` directory and launch the R script [`dependencies.R`](./R-code/main/dependencies.R) by running in the terminal:
+Move to the `main` directory and launch the R script [`dependencies.R`](main/dependencies.R) by running in the terminal:
 ```bash
 cd R-code
 Rscript --vanilla main/dependencies.R
