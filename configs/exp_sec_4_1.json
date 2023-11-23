@@ -1,6 +1,6 @@
 {
   "set_params": {
-      "description": "Experiments for Section 4.1 --- RMISE vs p, and quantiles; check GRF performance for p < 10.",
+      "description": "Experiments for Section 4.1 --- RMISE vs p, and quantiles.",
       "nsim": 50,
       "params": {
         "n": [2e3],

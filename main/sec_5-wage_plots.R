@@ -4,6 +4,8 @@ source("main/dependencies.R")
 FILE1 <- "output/exp_sec_5/wage_pred_param.rds"
 FILE2 <- "output/exp_sec_5/wage_pred_quant.rds"
 FILE3 <- "output/exp_sec_5/wage_cv.rds"
+
+# Output files
 PLT1 <- here("figures/fitted_params.pdf")
 PLT2 <- here("figures/fitted_quantiles.pdf")
 PLT3 <- here("figures/loss_methods_boxplots_identity.pdf")
