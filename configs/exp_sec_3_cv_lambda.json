@@ -1,81 +1,40 @@
 {
-    "set_params": {
-        "description": "Experiments for Section 3 --- Cross validation wrt lambda; min.node.size = 100.",
-        "nsim": 10,
-        "params": {
-            "n": [
-                2e3
-            ],
-            "p": [
-                40
-            ],
-            "ntest": 1e3,
-            "model": [
-                "iid_step"
-            ],
-            "distr": [
-                "student_t"
-            ],
-            "df": [
-                4
-            ],
-            "test_data": "halton",
-            "alpha_beta": [
-                1
-            ],
-            "methods": {
-                "": [
-                    "truth"
-                ]
-            },
-            "min.node.size": {
-                "": [
-                    5
-                ]
-            },
-            "lambda": {
-                "": [
-                    0,
-                    1e-5,
-                    5e-5,
-                    1e-4,
-                    5e-4,
-                    1e-3,
-                    5e-3,
-                    1e-2,
-                    5e-2,
-                    1e-1
-                ]
-            },
-            "nfolds": 5,
-            "nreps": 3,
-            "quantiles": {
-                "": [
-                    0.8,
-                    0.99,
-                    0.995,
-                    0.999,
-                    0.9995
-                ]
-            },
-            "intermediate_quantile": [
-                0.8
-            ],
-            "return_value": "cv"
-        },
-        "base_params": null, // one of null, or in the same order as they appear above
-        "grid_mode": "full", // one of "full", "partial"
-        "seed": 18315793,
-        "seed_for_each": null, // one of null, [<params$param_name_1>, ..., <params$param_name_n>, <nsim>]
-        "output_file": "output/exp_sec_3_lambda/param_grid_models_cv_lambda.rds"
-    },
-    "set_parallel_strategy": {
-        "strategy": "parallel", // one of "parallel", "sequential"
-        "n_workers": 10
-    },
-    "run_experiments": {
-        "experiment": "compare_methods_cv", // experiment function
-        "input_file": "output/exp_sec_3_lambda/param_grid_models_cv_lambda.rds",
-        "output_file": "output/exp_sec_3_lambda/res_models_cv_lambda.rds"
-    }
+  "set_params": {
+      "description": "Experiments for Section 3 --- Cross validation wrt lambda; min.node.size = 5.",
+      "nsim": 50,
+      "params": {
+        "n": [2e3],
+        "p": [40], 
+        "ntest": 1e3,
+        "model": ["step"],
+        "distr": ["student_t"],
+        "df": [4],
+        "test_data": "halton",
+        "alpha_beta": [1],
+        "methods": {"": ["truth"]},
+        "min.node.size": {"":[5]},
+        "lambda": {"":[0, 1e-5, 5e-5, 1e-4, 5e-4, 1e-3, 5e-3, 1e-2, 5e-2, 1e-1]},
+        "nfolds": 5,
+        "nreps": 3,
+        "quantiles": {"":[0.8, 0.99, 0.995, 0.999, 0.9995]},
+        "intermediate_quantile" : [0.8],
+        "return_value": "cv"
+      },
+      "base_params": null, // one of null, or in the same order as they appear above
+      "grid_mode": "full", // one of "full", "partial"
+      "seed": 59698214,
+      "seed_for_each": null, // one of null, [<params$param_name_1>, ..., <params$param_name_n>, <nsim>]
+      "output_file": "output/exp_sec_3_lambda/param_grid_models_cv_lambda.rds"
+  },
+  
+  "set_parallel_strategy":{
+    "strategy": "parallel", // one of "parallel", "sequential"
+    "n_workers": 8
+  },
+  
+  "run_experiments": { 
+    "experiment": "compare_methods_cv", // experiment function
+    "input_file": "output/exp_sec_3_lambda/param_grid_models_cv_lambda.rds",
+    "output_file": "output/exp_sec_3_lambda/res_models_cv_lambda.rds"
+  }
 }
