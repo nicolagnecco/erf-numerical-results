@@ -1,5 +1,6 @@
 # Dependency imports
 source("main/dependencies.R")
+RNGkind(kind = "default")
 
 
 # Constant definitions

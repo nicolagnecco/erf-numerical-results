@@ -12,15 +12,15 @@
         "test_data": "halton",
         "alpha_beta": [1],
         "methods": {"": ["truth"]},
-        "min.node.size": [40, 5, 10, 100, 200, 300, 350, 400, 450, 500],
-        "lambda": [0.0],
+        "min.node.size": [5, 10, 40, 100, 200, 300, 350, 400, 450, 500],
+        "lambda": [0.0, 1e-5, 5e-5, 1e-4, 5e-4, 1e-3, 5e-3, 1e-2, 5e-2, 1e-1],
         "quantiles": {"":[0.8, 0.99, 0.995, 0.999, 0.9995]},
         "intermediate_quantile" : [0.8],
         "return_value": "ise"
       },
       "base_params": ["min.node.size", "lambda"], // one of null, or in the same order as they appear above
       "grid_mode": "partial", // one of "full", "partial"
-      "seed": 13240579,
+      "seed": 59698214,
       "seed_for_each": ["nsim"], // one of null, [<params$param_name_1>, ..., <params$param_name_n>, <nsim>]
       "output_file": "output/exp_sec_3_kappa/param_grid_models.rds"
   },

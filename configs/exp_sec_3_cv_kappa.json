@@ -22,14 +22,14 @@
       },
       "base_params": null, // one of null, or in the same order as they appear above
       "grid_mode": "full", // one of "full", "partial"
-      "seed": 13240579,
+      "seed": 59698214,
       "seed_for_each": null, // one of null, [<params$param_name_1>, ..., <params$param_name_n>, <nsim>]
       "output_file": "output/exp_sec_3_kappa/param_grid_models_cv_kappa.rds"
   },
   
   "set_parallel_strategy":{
     "strategy": "parallel", // one of "parallel", "sequential"
-    "n_workers": 8
+    "n_workers": 12
   },
   
   "run_experiments": { 
