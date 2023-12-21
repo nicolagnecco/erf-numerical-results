@@ -71,8 +71,8 @@ All the code to reproduce results in the article is located in the `main` folder
 Below we provide a detailed breakdown of each file.
 
 > [!NOTE]  
-> As an example consider the third row of the table referring to [sec_4_1-experiments.R](main/sec_4_1-experiments.R). The file produces Figure 3 of the paper. Its configuration file [exp_sec_4_1.json](configs/exp_sec_4_1.json)  includes the parameter to run the simulation, including the number of parallel `R` instance (see `n_workers`). It produces intermediate results, which are saved in the [output/](output/) folder, and it produces figures, which are saved in the [figures/](figures/) folder. For this file, it is possible to only plot the results (without running the simulation) by setting `RUN_SIMULATION <- FALSE` inside the file.
-The estimated runtime is around 15 mins.
+> As an example consider the third row of the table referring to [sec_4_1-experiments.R](main/sec_4_1-experiments.R). The file produces Figure 3 of the paper. Its configuration file [exp_sec_4_1.json](configs/exp_sec_4_1.json)  includes the parameter to run the simulation, including the number of parallel `R` instance (see `n_workers`). It produces intermediate results, which are saved in the [output/](output/) folder, and it produces figures, which are saved in the [figures/](figures/) folder. For this file, you can plot the results without running the simulation by setting `RUN_SIMULATION <- FALSE` inside the file. Alternatively, you can run the simulation _and_ plot the results by setting `RUN_SIMULATION <- TRUE`.
+The estimated runtime is approximately 15 mins.
 
 > [!WARNING]  
 > The estimated runtime is based on the number of parallel `R` instances set in the corresponding config file (see the parameter `n_workers` there). Running several `R` instances in parallel (e.g., `n_workers > 20`) on a local computer might not be feasible.
