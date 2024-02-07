@@ -87,12 +87,12 @@ for(i in seq_len(nrow(params))){
                mapping = aes(x = X1, y = Y),  
                col = my_palette$red) +
     geom_line(aes(x = X1, y = Q_hat)) +
-    annotate("text",
-             x = x_text, y = max(Q_hat),
-             label = TeX(Q_hat_text),
-             # color = my_palette$background,
-             size = text_size
-    ) +
+    # annotate("text",
+    #          x = x_text, y = max(Q_hat),
+    #          label = TeX(Q_hat_text),
+    #          # color = my_palette$background,
+    #          size = text_size
+    # ) +
     coord_cartesian(xlim = c(-.95, .95), ylim = c(-5, 12), clip = "off") +
     theme(
       plot.margin = unit(c(1, 4.5, 1, 1), "lines"),
@@ -112,12 +112,12 @@ for(i in seq_len(nrow(params))){
   gg4 <- ggplot(dat %>% filter(Y > -5)) +
     geom_point(aes(x = X1, y = Y), color = my_palette$grey, alpha = 0.5) +
     geom_line(aes(x = X1, y = Q_hat)) +
-    annotate("text",
-             x = x_text, y = max(Q_hat),
-             label = TeX(Q_hat_text),
-             # color = my_palette$background,
-             size = text_size
-    ) +
+    # annotate("text",
+    #          x = x_text, y = max(Q_hat),
+    #          label = TeX(Q_hat_text),
+    #          # color = my_palette$background,
+    #          size = text_size
+    # ) +
     coord_cartesian(xlim = c(-.95, .95), ylim = c(-5, 12), clip = "off") +
     theme(
       plot.margin = unit(c(1, 4.5, 1, 1), "lines"),
