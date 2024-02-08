@@ -85,7 +85,7 @@ for(i in seq_len(nrow(params))){
     geom_point(aes(x = X1, y = Y), color = my_palette$grey, alpha = 0.5) +
     geom_point(data = dat %>% filter(Exc_ind), 
                mapping = aes(x = X1, y = Y),  
-               col = my_palette$red) +
+               col = my_palette$blue) +
     geom_line(aes(x = X1, y = Q_hat)) +
     # annotate("text",
     #          x = x_text, y = max(Q_hat),
@@ -94,6 +94,8 @@ for(i in seq_len(nrow(params))){
     #          size = text_size
     # ) +
     coord_cartesian(xlim = c(-.95, .95), ylim = c(-5, 12), clip = "off") +
+    xlab("Predictor vector X") +
+    ylab("Response Y") +
     theme(
       plot.margin = unit(c(1, 4.5, 1, 1), "lines"),
       panel.border = element_rect(linewidth = 1 / 8)
@@ -119,6 +121,8 @@ for(i in seq_len(nrow(params))){
     #          size = text_size
     # ) +
     coord_cartesian(xlim = c(-.95, .95), ylim = c(-5, 12), clip = "off") +
+    xlab("Predictor vector X") +
+    ylab("Response Y") +
     theme(
       plot.margin = unit(c(1, 4.5, 1, 1), "lines"),
       panel.border = element_rect(linewidth = 1 / 8)
